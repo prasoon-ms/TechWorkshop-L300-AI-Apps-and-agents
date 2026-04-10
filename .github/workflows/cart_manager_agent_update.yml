@@ -26,6 +26,16 @@ jobs:
           FOUNDRY_ENDPOINT: ${{ secrets.FOUNDRY_ENDPOINT }}
           GPT_DEPLOYMENT: ${{ secrets.GPT_DEPLOYMENT }}
         run: |
+          # Validate required secrets
+          if [ -z "$GPT_DEPLOYMENT" ]; then
+            echo "##[error]GPT_DEPLOYMENT secret is not set or is empty."
+            exit 1
+          fi
+          if [ -z "$FOUNDRY_ENDPOINT" ]; then
+            echo "##[error]FOUNDRY_ENDPOINT secret is not set or is empty."
+            exit 1
+          fi
+          
           # Read the prompt file and escape it for JSON
           INSTRUCTIONS="$(python3 -c "print(open('src/prompts/CartManagerPrompt.txt','r',encoding='utf-8').read())")"
 
