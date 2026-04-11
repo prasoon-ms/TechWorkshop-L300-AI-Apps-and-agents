@@ -27,7 +27,7 @@ jobs:
           GPT_DEPLOYMENT: ${{ secrets.GPT_DEPLOYMENT }}
         run: |
           # Read the prompt file and escape it for JSON
-          INSTRUCTIONS=$(python3 -c "print(open('src/prompts/CartManagerPrompt.txt','r',encoding='utf-8').read())")
+          INSTRUCTIONS=$(python3 -c "print(__import__('json').dumps(open('src/prompts/CartManagerPrompt.txt').read()))")
 
           # Build the request body from the template, substituting variables
           jq --arg model "$GPT_DEPLOYMENT" \
